@@ -3,7 +3,7 @@ terraform {
   required_providers {
     dynatrace = {
       source  = "dynatrace-oss/dynatrace"
-      version = "~> 2.1.0"
+      version = "~> 1.100.0"
     }
   }
 }
