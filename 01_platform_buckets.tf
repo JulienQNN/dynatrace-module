@@ -8,8 +8,8 @@ resource "dynatrace_platform_bucket" "this" {
   for_each = var.platform_buckets
 
   name      = each.key
-  table     = each.value.table
-  retention = each.value.retention
+  table     = try(each.value.table, "logs")
+  retention = try(each.value.retention, 90)
 }
 
 resource "dynatrace_openpipeline_v2_logs_pipelines" "this" {
@@ -40,7 +40,7 @@ resource "dynatrace_openpipeline_v2_logs_routing" "this" {
     routing_entry {
       enabled     = try(each.value.routing_enabled, true)
       description = try(each.value.routing_description, "Route logs to ${each.key}")
-      matcher     = each.value.routing_matcher
+      matcher     = try(each.value.routing_matcher, "matchesPhrase(dt.system.bucket, \"${each.key}\")")
 
       pipeline_type       = "custom"
       builtin_pipeline_id = dynatrace_openpipeline_v2_logs_pipelines.this[each.key].custom_id

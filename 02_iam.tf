@@ -14,13 +14,13 @@ data "dynatrace_iam_group" "this" {
 data "dynatrace_iam_policy" "this" {
   for_each = var.iam_group_access
 
-  name = each.value.policy_name
+  name = try(each.value.policy_name, "ReadOnly")
 }
 
 resource "dynatrace_iam_policy_boundary" "this" {
   for_each = var.iam_group_access
 
-  name  = each.value.boundary_name
+  name  = try(each.value.boundary_name, "Boundary_${each.key}")
   query = each.value.boundary_query
 }
 
