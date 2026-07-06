@@ -4,8 +4,8 @@ variable "platform_buckets" {
   default     = {}
 }
 
-variable "iam_bindings" {
-  description = "IAM policy + boundary + binding definitions (decoded from YAML)"
+variable "iam_group_access" {
+  description = "IAM group access definitions (decoded from YAML)"
   type        = any
   default     = {}
 }
